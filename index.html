@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Psst... c'est pour toi 🐱</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rose-vif: #FF4FA3;
+      --rose-doux: #FFB3D9;
+      --rose-pale: #FFF0F7;
+      --rose-chaud: #FF6EB4;
+      --violet: #C94BB0;
+      --creme: #FFF8FC;
+      --texte: #5A1A40;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--creme);
+      color: var(--texte);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== ÉCRAN 1 : ACCUEIL ===== */
+    #screen-welcome {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, #FFF0F7 0%, #FFD6EC 50%, #FFC2E3 100%);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .cat-big {
+      font-size: 8rem;
+      animation: float 3s ease-in-out infinite;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+
+    .welcome-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: var(--violet);
+      margin-bottom: 0.5rem;
+      text-shadow: 3px 3px 0px var(--rose-doux);
+    }
+
+    .welcome-sub {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 600;
+      color: var(--rose-vif);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .note-box {
+      background: white;
+      border: 3px solid var(--rose-doux);
+      border-radius: 24px;
+      padding: 1.5rem 2rem;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 8px 30px rgba(255,79,163,0.15);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #7A3060;
+    }
+
+    .note-box strong { color: var(--rose-vif); }
+
+    .btn-reveal {
+      background: linear-gradient(135deg, var(--rose-vif), var(--violet));
+      color: white;
+      border: none;
+      padding: 1.1rem 3rem;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(255,79,163,0.45);
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-reveal:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 12px 35px rgba(255,79,163,0.55);
+    }
+
+    .btn-reveal:active { transform: scale(0.97); }
+
+    .hearts-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart-float {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: riseUp linear infinite;
+      opacity: 0.35;
+    }
+
+    @keyframes riseUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0.4; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    #screen-welcome > * { position: relative; z-index: 1; }
+
+    /* ===== ÉCRAN 2 : LA RÉVÉLATION ===== */
+    #screen-party {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #FF4FA3 0%, #C94BB0 50%, #8B1A6B 100%);
+      position: relative;
+      overflow: hidden;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    #screen-party.visible { display: flex; }
+
+    .party-cats {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      animation: partyCats 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes partyCats {
+      0% { transform: scale(1) rotate(-5deg); }
+      100% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    .hb-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      color: white;
+      text-shadow: 4px 4px 0px rgba(0,0,0,0.2), 0 0 40px rgba(255,255,255,0.3);
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+
+    .hb-name {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(3rem, 10vw, 7rem);
+      color: #FFE0F3;
+      text-shadow: 5px 5px 0px rgba(0,0,0,0.25);
+      margin-bottom: 1.5rem;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 5px 5px 0 rgba(0,0,0,0.25), 0 0 30px rgba(255,224,243,0.4); }
+      50% { text-shadow: 5px 5px 0 rgba(0,0,0,0.25), 0 0 60px rgba(255,224,243,0.8); }
+    }
+
+    .message-card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 28px;
+      padding: 2rem 2.5rem;
+      max-width: 580px;
+      margin: 0 auto 2rem;
+      color: white;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .message-card .highlight {
+      color: #FFE0F3;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    .emoji-row {
+      font-size: 2.5rem;
+      margin: 1rem 0;
+      animation: wiggle 1s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .confession-box {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem 2rem;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      color: var(--violet);
+      font-size: 1rem;
+      line-height: 1.7;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    .confession-box .aveu {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--rose-vif);
+    }
+
+    .confetti-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall linear infinite;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+    }
+
+    #screen-party > * { position: relative; z-index: 1; }
+
+    .heart-burst {
+      font-size: 3rem;
+      animation: burstPop 0.6s ease-out;
+    }
+
+    @keyframes burstPop {
+      0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+      60% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ===== ANIMATION D'ENTRÉE ===== */
+    @keyframes slideIn {
+      from { opacity: 0; transform: scale(0.8) translateY(30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .animate-in {
+      animation: slideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.5s; }
+    .delay-4 { animation-delay: 0.7s; }
+    .delay-5 { animation-delay: 0.9s; }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .cat-big { font-size: 5rem; }
+      .message-card { padding: 1.5rem; font-size: 1rem; }
+      .confession-box { padding: 1rem 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ÉCRAN 1 ===== -->
+<div id="screen-welcome">
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <div class="cat-big">🐱</div>
+
+  <h1 class="welcome-title">Psst, toi là... 👀</h1>
+  <p class="welcome-sub">Ouais toi, mon chaton sucré au sucre.<br>T'es attendue ici.</p>
+
+  <div class="note-box">
+    Bon écoute, je sais pas trop comment te dire ça mais...
+    t'as reçu un <strong>colis très important</strong> aujourd'hui.<br><br>
+    Non, c'est pas Amazon. C'est mieux.<br>
+    Clique sur le bouton. <strong>Fais-moi confiance.</strong> 🙏
+  </div>
+
+  <button class="btn-reveal" onclick="reveal()">
+    🎀 Ouvrir le colis 🎀
+  </button>
+</div>
+
+<!-- ===== ÉCRAN 2 ===== -->
+<div id="screen-party">
+  <div class="confetti-container" id="confettiContainer"></div>
+
+  <div class="heart-burst animate-in">🎉💖🎂💖🎉</div>
+
+  <h1 class="hb-title animate-in delay-1">Joyeux Anniversaire</h1>
+  <div class="hb-name animate-in delay-2">Balkis !</div>
+
+  <div class="party-cats animate-in delay-2">🐱🎂🐱</div>
+
+  <div class="message-card animate-in delay-3">
+    <p>
+      Mon chaton sucré au sucre, aujourd'hui c'est <span class="highlight">TON jour</span> ☀️<br><br>
+      T'as le droit d'être heureuse, d'être gâtée, d'être célébrée<br>
+      comme la <span class="highlight">reine absolue</span> que t'es. 👑<br><br>
+      Que cette nouvelle année t'apporte tout ce que tu mérites —
+      et tu mérites <span class="highlight">énormément</span>. 🌸
+    </p>
+    <div class="emoji-row">🎈🌸💕🎀🌸💕🎈</div>
+  </div>
+
+  <div class="confession-box animate-in delay-4">
+    <p class="aveu">Petit aveu... 😬</p>
+    <p>
+      J'aurais dû te souhaiter ça à minuit pile.<br>
+      J'ai... légèrement raté ça. 🙈<br>
+      Mais en vrai, <strong>18h c'est l'heure idéale</strong> pour les grandes révélations, non ?<br>
+      (je fais ce que je peux 😂)
+    </p>
+  </div>
+
+  <div class="animate-in delay-5" style="font-size: 2.5rem; letter-spacing: 0.3rem;">
+    💖 🐱 💖 🐱 💖
+  </div>
+</div>
+
+<script>
+  // Génère des cœurs flottants en arrière-plan
+  function generateHearts() {
+    const bg = document.getElementById('heartsBg');
+    const emojis = ['💕', '🩷', '💗', '💓', '🌸', '✨', '💖'];
+    for (let i = 0; i < 20; i++) {
+      const el = document.createElement('div');
+      el.className = 'heart-float';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (5 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 8) + 's';
+      el.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+      bg.appendChild(el);
+    }
+  }
+
+  // Génère des confettis colorés
+  function generateConfetti() {
+    const container = document.getElementById('confettiContainer');
+    const colors = ['#FFB3D9', '#FF4FA3', '#FFE0F3', '#ffffff', '#FFD700', '#C94BB0', '#FF69B4'];
+    for (let i = 0; i < 60; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (3 + Math.random() * 5) + 's';
+      el.style.animationDelay = (Math.random() * 5) + 's';
+      el.style.width = (6 + Math.random() * 10) + 'px';
+      el.style.height = (6 + Math.random() * 10) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      container.appendChild(el);
+    }
+  }
+
+  function reveal() {
+    const welcome = document.getElementById('screen-welcome');
+    const party = document.getElementById('screen-party');
+
+    // Petit effet de sortie
+    welcome.style.transition = 'opacity 0.4s, transform 0.4s';
+    welcome.style.opacity = '0';
+    welcome.style.transform = 'scale(1.05)';
+
+    setTimeout(() => {
+      welcome.style.display = 'none';
+      party.classList.add('visible');
+      generateConfetti();
+    }, 400);
+  }
+
+  // Init
+  generateHearts();
+</script>
+
+</body>
+</html>
